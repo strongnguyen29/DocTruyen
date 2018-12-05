@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Doc Truyen</string>
+    <string name="prev_chap">Trước</string>
+    <string name="next_chap">Sau</string>
+    <string name="Reading">Đọc</string>
+    <string name="go_to_chap">Chương</string>
+    <string name="libs_replace">Replace</string>
+    <string name="pop_rep_hint_current_text">Text hiện tại...</string>
+    <string name="pop_rep_hint_new_text">Text mới...</string>
+</resources>
