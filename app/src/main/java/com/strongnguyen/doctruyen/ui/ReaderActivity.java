@@ -3,6 +3,7 @@ package com.strongnguyen.doctruyen.ui;
 import android.content.ComponentName;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PowerManager;
@@ -25,6 +26,7 @@ import com.strongnguyen.doctruyen.data.TruyenCuaTuiParser;
 import com.strongnguyen.doctruyen.data.TruyenCvParser;
 import com.strongnguyen.doctruyen.data.TruyenFullParser;
 import com.strongnguyen.doctruyen.data.WebTruyenParser;
+import com.strongnguyen.doctruyen.data.WikiDichParser;
 import com.strongnguyen.doctruyen.model.ContentChap;
 import com.strongnguyen.doctruyen.model.ReplaceText;
 import com.strongnguyen.doctruyen.ui.popup.PopupReplaceText;
@@ -43,6 +45,7 @@ import static com.strongnguyen.doctruyen.ui.ListChapActivity.TRUYENCUATUI;
 import static com.strongnguyen.doctruyen.ui.ListChapActivity.TRUYENCV;
 import static com.strongnguyen.doctruyen.ui.ListChapActivity.TRUYENFULL;
 import static com.strongnguyen.doctruyen.ui.ListChapActivity.WEBTRUYEN;
+import static com.strongnguyen.doctruyen.ui.ListChapActivity.WIKIDICH;
 import static com.strongnguyen.doctruyen.ui.popup.PopupReplaceText.PREF_REPLACE_TEXT;
 
 public class ReaderActivity extends AppCompatActivity {
@@ -116,6 +119,9 @@ public class ReaderActivity extends AppCompatActivity {
                         break;
                     case "truyencuatui.net":
                         sourceBook = TRUYENCUATUI;
+                        break;
+                    case "wikidich.com":
+                        sourceBook = WIKIDICH;
                         break;
                 }
             } catch (MalformedURLException e) {
@@ -311,12 +317,20 @@ public class ReaderActivity extends AppCompatActivity {
      * Doc text
      */
     private void speakOut() {
-        textToSpeech.speak(arrTextSpeech[currentSpeech], TextToSpeech.QUEUE_FLUSH, null, String.valueOf(currentSpeech));
-
-        int i = currentSpeech + 1;
-        while (i < arrTextSpeech.length) {
-            textToSpeech.speak(arrTextSpeech[i], TextToSpeech.QUEUE_ADD, null, String.valueOf(i));
-            i++;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            textToSpeech.speak(arrTextSpeech[currentSpeech], TextToSpeech.QUEUE_FLUSH, null, String.valueOf(currentSpeech));
+            int i = currentSpeech + 1;
+            while (i < arrTextSpeech.length) {
+                textToSpeech.speak(arrTextSpeech[i], TextToSpeech.QUEUE_ADD, null, String.valueOf(i));
+                i++;
+            }
+        } else {
+            textToSpeech.speak(arrTextSpeech[currentSpeech], TextToSpeech.QUEUE_FLUSH, null);
+            int i = currentSpeech + 1;
+            while (i < arrTextSpeech.length) {
+                textToSpeech.speak(arrTextSpeech[i], TextToSpeech.QUEUE_ADD, null);
+                i++;
+            }
         }
     }
 
@@ -450,6 +464,8 @@ public class ReaderActivity extends AppCompatActivity {
                     return WebTruyenParser.getInstance().getContentChap(url[0]);
                 case TRUYENCUATUI:
                     return TruyenCuaTuiParser.getInstance().getContentChap(url[0]);
+                case WIKIDICH:
+                    return WikiDichParser.getInstance().getContentChap(url[0]);
             }
             return null;
         }

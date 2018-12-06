@@ -18,6 +18,7 @@ import com.strongnguyen.doctruyen.data.TruyenCuaTuiParser;
 import com.strongnguyen.doctruyen.data.TruyenCvParser;
 import com.strongnguyen.doctruyen.data.TruyenFullParser;
 import com.strongnguyen.doctruyen.data.WebTruyenParser;
+import com.strongnguyen.doctruyen.data.WikiDichParser;
 import com.strongnguyen.doctruyen.eventbus.SaveDataEventBus;
 import com.strongnguyen.doctruyen.model.Chapter;
 import com.strongnguyen.doctruyen.util.LogUtils;
@@ -41,6 +42,7 @@ public class ListChapActivity extends AppCompatActivity {
     public static final int TRUYENCV = 2;
     public static final int WEBTRUYEN = 3;
     public static final int TRUYENCUATUI = 4;
+    public static final int WIKIDICH = 5;
 
     private LoaderManager mLoaderManager;
     private ListChapLoader mListChapLoader;
@@ -77,6 +79,8 @@ public class ListChapActivity extends AppCompatActivity {
                 sourceBook = WEBTRUYEN;
             } else if (urlSource.getHost().equals("truyencuatui.net")) {
                 sourceBook = TRUYENCUATUI;
+            } else if (urlSource.getHost().equals("wikidich.com")) {
+                sourceBook = WIKIDICH;
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -89,7 +93,8 @@ public class ListChapActivity extends AppCompatActivity {
         mListChapLoader.setPage(curentPage);
         mLoaderManager.initLoader(REQUEST_LOADER, null, mLoaderCallbacks);
 
-        if (sourceBook == TRUYENFULL || sourceBook == WEBTRUYEN || sourceBook == TRUYENCUATUI) {
+        if (sourceBook == TRUYENFULL || sourceBook == WEBTRUYEN
+                || sourceBook == TRUYENCUATUI || sourceBook == WIKIDICH) {
             // Get totalpage;
             new AsynTotalPage().execute();
         }
@@ -217,6 +222,8 @@ public class ListChapActivity extends AppCompatActivity {
                     return WebTruyenParser.getInstance().getBookTotalPageChapter(bookUrl);
                 case TRUYENCUATUI:
                     return TruyenCuaTuiParser.getInstance().getBookTotalPageChapter(bookUrl);
+                case WIKIDICH:
+                    return WikiDichParser.getInstance().getBookTotalPageChapter(bookUrl);
             }
             return 0;
         }

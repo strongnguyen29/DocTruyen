@@ -13,6 +13,7 @@ import static com.strongnguyen.doctruyen.ui.ListChapActivity.TRUYENCUATUI;
 import static com.strongnguyen.doctruyen.ui.ListChapActivity.TRUYENCV;
 import static com.strongnguyen.doctruyen.ui.ListChapActivity.TRUYENFULL;
 import static com.strongnguyen.doctruyen.ui.ListChapActivity.WEBTRUYEN;
+import static com.strongnguyen.doctruyen.ui.ListChapActivity.WIKIDICH;
 
 /**
  * Content class.
@@ -68,6 +69,8 @@ public class ListChapLoader extends AsyncTaskLoader<List<Chapter>> {
                 return WebTruyenParser.getInstance().getListChapter(url, page);
             case TRUYENCUATUI:
                 return TruyenCuaTuiParser.getInstance().getListChapter(url, page);
+            case WIKIDICH:
+                return WikiDichParser.getInstance().getListChapter(url, page);
         }
         return new ArrayList<>();
     }
