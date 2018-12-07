@@ -7,6 +7,5 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="16dp"
     android:foreground="?android:attr/selectableItemBackground"
-    android:textColor="@color/colorText1"
     android:textSize="16sp"
     tools:text="Chương 100: thế giới hoàn mỹ" />

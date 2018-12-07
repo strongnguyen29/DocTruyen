@@ -16,5 +16,6 @@
     <color name="colorBottomBar">#1effffff</color>
 
     <color name="transparent">#00000000</color>
+    <color name="bgBlack">#111111</color>
 
 </resources>

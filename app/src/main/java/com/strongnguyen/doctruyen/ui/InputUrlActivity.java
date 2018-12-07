@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import com.strongnguyen.doctruyen.R;
 import com.strongnguyen.doctruyen.ui.adapter.OnListener;
 import com.strongnguyen.doctruyen.ui.adapter.UrlAdapter;
+import com.strongnguyen.doctruyen.util.LogUtils;
 import com.strongnguyen.doctruyen.util.Preferences;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import java.util.List;
  * Email: vancuong2941989@gmail.com
  */
 public class InputUrlActivity extends AppCompatActivity {
+    private static final String TAG = InputUrlActivity.class.getSimpleName();
     public static final String PREF_URL_BOOK = "PREF_URL_BOOK";
     public static final String PREF_LIST_URL_BOOK = "PREF_LIST_URL_BOOK";
 
@@ -89,15 +91,17 @@ public class InputUrlActivity extends AppCompatActivity {
 
     private void saveListBooks(String url) {
 
-        if (listUrls == null || listUrls.size() == 0 || url.equals(listUrls.get(0))) {
+        if (listUrls != null && listUrls.size() > 0 && url.equals(listUrls.get(0))) {
             return;
         }
+
         listUrls.add(0, url);
         if (listUrls.size() > 20) {
             listUrls.remove(listUrls.size() - 1);
         }
         String json = new Gson().toJson(listUrls);
         Preferences.saveString(getApplicationContext(), PREF_LIST_URL_BOOK, json);
+        LogUtils.d(TAG,"saveListBooks: url = " + url);
     }
 
 }
